@@ -24,7 +24,12 @@
     var channel = require('cordova/channel');
     var modulemapper = require('cordova/modulemapper');
     var urlutil = require('cordova/urlutil');
-
+    var platform = ""
+    if (device !== undefined) {
+        platform = device.platform;
+    }
+    console.log("Device platform: '", platform, "'");
+    
     function InAppBrowser () {
         this.channels = {
             'beforeload': channel.create('beforeload'),
@@ -117,7 +122,8 @@
 
           strWindowFeatures = strWindowFeatures || '';
 
-          exec(cb, cb, 'InAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);
+          /*exec(cb, cb, 'InAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);*/
+          $public.FeedbackMessage.showFeedbackMessage("strWindowFeatures: " + strWindowFeatures, 0, true, "", false);
           return iab;
       },
       openSystemBrowser: function (strUrl, strWindowName, strWindowFeatures, callbacks) {
