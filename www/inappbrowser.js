@@ -101,7 +101,8 @@
           if (device !== undefined) {
               platform = device.platform;
           }
-          console.log("Device platform: '", platform, "'");
+          console.log("Device platform:", platform);
+          console.log("Parameter strWindowName:", strWindowName);
           // Don't catch calls that write to existing frames (e.g. named iframes).
           if (window.frames && window.frames[strWindowName]) {
               var origOpenFunc = modulemapper.getOriginalSymbol(window, 'open');
@@ -110,8 +111,11 @@
 
           strUrl = urlutil.makeAbsolute(strUrl);
           var iab = new InAppBrowser();
-          iab.rootName = 'InAppBrowser';
-
+          if (device == 'iOS' && strWindowName == '_system') {
+              iab.rootName = 'SystemInAppBrowser';
+          } else {   
+              iab.rootName = 'InAppBrowser';
+          }
           callbacks = callbacks || {};
           for (var callbackName in callbacks) {
               iab.addEventListener(callbackName, callbacks[callbackName]);
@@ -122,9 +126,11 @@
           };
 
           strWindowFeatures = strWindowFeatures || '';
-
-          /*exec(cb, cb, 'InAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);*/
-          console.log("Parameter strWindowFeatures: '" + strWindowFeatures + "'");
+          if (device == 'iOS' && strWindowName == '_system') {
+              exec(cb, cb, 'SystemInAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);
+          } else {  
+              exec(cb, cb, 'InAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);
+          }
           return iab;
       },
       openSystemBrowser: function (strUrl, strWindowName, strWindowFeatures, callbacks) {
