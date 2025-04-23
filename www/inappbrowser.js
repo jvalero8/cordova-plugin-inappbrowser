@@ -24,11 +24,6 @@
     var channel = require('cordova/channel');
     var modulemapper = require('cordova/modulemapper');
     var urlutil = require('cordova/urlutil');
-    var platform = ""
-    if (device !== undefined) {
-        platform = device.platform;
-    }
-    console.log("Device platform: '", platform, "'");
     
     function InAppBrowser () {
         this.channels = {
@@ -101,6 +96,12 @@
     module.exports = {
       open: function (strUrl, strWindowName, strWindowFeatures, callbacks) {
         console.log('Started Open');
+          
+          var platform = ""
+          if (device !== undefined) {
+              platform = device.platform;
+          }
+          console.log("Device platform: '", platform, "'");
           // Don't catch calls that write to existing frames (e.g. named iframes).
           if (window.frames && window.frames[strWindowName]) {
               var origOpenFunc = modulemapper.getOriginalSymbol(window, 'open');
@@ -123,7 +124,7 @@
           strWindowFeatures = strWindowFeatures || '';
 
           /*exec(cb, cb, 'InAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);*/
-          $public.FeedbackMessage.showFeedbackMessage("strWindowFeatures: " + strWindowFeatures, 0, true, "", false);
+          console.log("Parameter strWindowFeatures: '" + strWindowFeatures + "'");
           return iab;
       },
       openSystemBrowser: function (strUrl, strWindowName, strWindowFeatures, callbacks) {
