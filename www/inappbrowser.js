@@ -111,7 +111,7 @@
 
           strUrl = urlutil.makeAbsolute(strUrl);
           var iab = new InAppBrowser();
-          if (device == 'iOS' && strWindowName == '_system') {
+          if (platform == 'iOS' && strWindowName == '_system') {
               iab.rootName = 'SystemInAppBrowser';
           } else {   
               iab.rootName = 'InAppBrowser';
@@ -126,7 +126,7 @@
           };
 
           strWindowFeatures = strWindowFeatures || '';
-          if (device == 'iOS' && strWindowName == '_system') {
+          if (platform == 'iOS' && strWindowName == '_system') {
               exec(cb, cb, 'SystemInAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);
           } else {  
               exec(cb, cb, 'InAppBrowser', 'open', [strUrl, strWindowName, strWindowFeatures]);
